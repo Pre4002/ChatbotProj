@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot - National Rail Museum</title>
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>Museum Ticketing Chatbot</h1>
+        </header>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') handleUserMessage()">
+            <button onclick="handleUserMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let state = 'waiting'; // Tracks the conversation state
+
+        // Send a message to the server
+        function sendMessage() {
+            const userInput = document.getElementById('user-input');
+            const userMessage = userInput.value.trim();
+            const chatBox = document.getElementById('chat-box');
+
+            if (userMessage === '') return; // Prevent sending empty messages
+
+            chatBox.innerHTML += `<div class="user-message">User: ${userMessage}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Add typing indicator
+            chatBox.innerHTML += `<div class="bot-message" id="typing-indicator">Bot is typing...</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove typing indicator
+                document.getElementById('typing-indicator').remove();
+
+                // Append bot response
+                chatBox.innerHTML += `<div class="bot-message">Bot: ${data.response}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                // If a ticket ID is available, show it
+                if (data.ticket_id) {
+                    chatBox.innerHTML += `<div class="bot-message">Bot: Your ticket ID is ${data.ticket_id}. You can use this ID to cancel your booking if needed.</div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+
+                // Set next state if provided by the bot
+                if (data.nextState) {
+                    state = data.nextState;
+                }
+
+                userInput.value = ''; // Clear the input
+            });
+        }
+
+        function handleUserMessage() {
+            const userInput = document.getElementById('user-input');
+            const userMessage = userInput.value.trim();
+
+            if (userMessage === '') return; // Prevent sending empty messages
+
+            if (state === 'awaiting_ticket_id') {
+                // Call cancel function with the ticket ID provided by the user
+                cancelTicket(userMessage.trim());
+                state = 'waiting'; // Reset state after handling ticket ID
+            } else if (userMessage.match(/^[1-6]$/)) { // Check if the message is a valid number (1-6)
+                processMenuOption(userMessage); // Handle menu selection
+            } else {
+                sendMessage(); // Handle other messages
+            }
+
+            userInput.value = ''; // Clear the input field
+        }
+
+        function processMenuOption(option) {
+            const chatBox = document.getElementById('chat-box');
+            switch (option) {
+                case '1': // History
+                    chatBox.innerHTML += `<div class="bot-message">Bot: You can view your booking history here.</div>`;
+                    break;
+                case '2': // Peek hours
+                    chatBox.innerHTML += `<div class="bot-message">Bot: Our peak hours are from 10 AM to 12 PM on weekends.</div>`;
+                    break;
+                case '3': // Holiday
+                    chatBox.innerHTML += `<div class="bot-message">Bot: The museum is closed on national holidays.</div>`;
+                    break;
+                case '4': // Book a ticket
+                    chatBox.innerHTML += `<div class="bot-message">Bot: To book a ticket, please provide your name and ticket type.</div>`;
+                    break;
+                case '5': // Cancel
+                    chatBox.innerHTML += `<div class="bot-message">Bot: Please provide your ticket ID to cancel your booking.</div>`;
+                    break;
+                case '6': // Query
+                    chatBox.innerHTML += `<div class="bot-message">Bot: Ask me anything about the museum and I’ll do my best to help.</div>`;
+                    break;
+                default:
+                    chatBox.innerHTML += `<div class="bot-message">Bot: Invalid option. Please select a number between 1 and 6.</div>`;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

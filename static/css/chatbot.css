@@ -1,0 +1,130 @@
+/* Global styles for body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4; /* Light gray for background */
+    background-size: cover;
+}
+
+/* Chat container styling */
+.chat-container {
+    width: 420px;
+    max-width: 100%;
+    border-radius: 20px;
+    background: #ffffff; /* White background for a clean look */
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Soft shadow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.chat-container:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Chat header styling */
+.chat-header {
+    background: #2c3e50; /* Dark blue matching navbar */
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    font-family: 'Georgia', serif;
+    border-bottom: 2px solid #1f2c3a;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+/* Chat box styling */
+#chat-box {
+    height: 300px;
+    overflow-y: auto;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    background: #f4f4f4; /* Light gray background for messages */
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual message styling */
+.user-message {
+    align-self: flex-end;
+    background: #2c3e50; /* Dark blue for user messages */
+    color: white;
+    border-radius: 15px;
+    padding: 8px 12px;
+    margin: 5px 0;
+    max-width: 75%;
+    font-size: 14px;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background: #e4e6eb; /* Light gray for bot messages */
+    color: #333333;
+    border-radius: 15px;
+    padding: 8px 12px;
+    margin: 5px 0;
+    max-width: 75%;
+    font-size: 14px;
+}
+
+/* Input container styling */
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+#user-input {
+    width: calc(100% - 90px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: #ffffff;
+    transition: box-shadow 0.3s ease;
+}
+
+#user-input:focus {
+    box-shadow: 0 0 5px rgba(44, 62, 80, 0.5);
+    border-color: #2c3e50;
+    outline: none;
+}
+
+/* Button styling */
+button {
+    width: 80px;
+    padding: 12px;
+    border: none;
+    background: #e67e22; /* Orange button color matching the accent */
+    color: white;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #d35400; /* Darker orange on hover */
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
+}

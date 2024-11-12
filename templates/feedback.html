@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - National Rail Museum</title>
+    <link rel="stylesheet" href="static/css/feedback.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/events">Events</a></li>
+                <li><a href="/gallery">Gallery</a></li>
+                <li><a href="/feedback" class="active">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="feedback-section">
+            <h1>Your Feedback Matters</h1>
+            <p>Please take a moment to provide your feedback about your experience at the National Rail Museum.</p>
+
+            <form action="submit_feedback.php" method="POST">
+                <label for="rating">Rate your experience (1 to 5 stars):</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+                <label for="category">Select feedback category:</label>
+                <select id="category" name="category">
+                    <option value="Overall experience">Overall experience</option>
+                    <option value="Website navigation">Website navigation</option>
+                    <option value="Ticket booking">Ticket booking</option>
+                    <option value="Museum exhibits">Museum exhibits</option>
+                    <option value="Staff interaction">Staff interaction</option>
+                    <option value="Facilities">Facilities</option>
+                    <option value="Cleanliness">Cleanliness</option>
+                </select>
+
+                <label for="comments">Additional comments or suggestions:</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Your thoughts here..." required></textarea>
+
+                <label for="anonymous">Submit anonymously:</label>
+                <input type="checkbox" id="anonymous" name="anonymous">
+                
+                <button type="submit">Submit Feedback</button>
+            </form>
+
+            <section class="testimonials">
+                <h2>What Others Are Saying</h2>
+                <div class="testimonial">
+                    <p>"A wonderful experience, the exhibits were insightful and the staff very helpful!"</p>
+                    <p>- Visitor 1</p>
+                </div>
+                <div class="testimonial">
+                    <p>"The museum's interactive displays are amazing! Looking forward to my next visit."</p>
+                    <p>- Visitor 2</p>
+                </div>
+            </section>
+
+            <section class="social-share">
+                <h2>Share Your Experience</h2>
+                <p>Spread the word by sharing your feedback on social media with the hashtag #NationalRailMuseum</p>
+                <a href="https://twitter.com/share?text=I%20visited%20the%20National%20Rail%20Museum!%20#NationalRailMuseum" target="_blank">Share on Twitter</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=yourURLhere" target="_blank">Share on Facebook</a>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 National Rail Museum</p>
+    </footer>
+</body>
+</html>

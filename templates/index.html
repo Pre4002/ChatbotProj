@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Rail Museum</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Floating Chatbot Icon */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chatbot-icon img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="static/image/logo.jpeg" alt="National Rail Museum Logo">
+        </div>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+            <li><a href="/feedback">Feedback</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to the National Rail Museum</h1>
+            <p>Discover the rich history of Indian Railways and its impact on the nation's growth.</p>
+            <a href="about.html" class="btn-primary">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Featured Exhibits -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Explore Our Exhibits</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <img src="static/image/Vintage.jpeg" alt="Vintage Train">
+                    <h3>Vintage Trains</h3>
+                    <p>Explore the first generation trains that shaped Indian railway history.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="static/image/locomotive.jpeg" alt="Railway Engine">
+                    <h3>Locomotives</h3>
+                    <p>Discover the powerful engines that revolutionized transportation in India.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="static/image/artifacts.jpeg" alt="Railway Artifacts">
+                    <h3>Railway Artifacts</h3>
+                    <p>See rare artifacts that tell the story of India’s railways.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="events-section">
+        <div class="container">
+            <h2>Upcoming Events</h2>
+            <div class="events">
+                <div class="event-card">
+                    <h3>Railway Heritage Tour</h3>
+                    <p>Join us for a special guided tour of our museum and uncover hidden stories of the railway’s past.</p>
+                    <p class="date">Date: 25th December</p>
+                </div>
+                <div class="event-card">
+                    <h3>Railway Model Exhibition</h3>
+                    <p>Marvel at the intricate models of famous Indian trains and stations, built by our passionate collectors.</p>
+                    <p class="date">Date: 15th January</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Icon -->
+    <div class="chatbot-icon" onclick="openChatbot()">
+        <img src="/static/image/chat.png" alt="Chatbot">
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 National Rail Museum. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Chatbot Script -->
+    <script>
+        function openChatbot() {
+            window.location.href = '/chatbot'; // Redirect to the chatbot page when clicked
+        }
+    </script>
+
+</body>
+</html>
