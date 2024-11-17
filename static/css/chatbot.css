@@ -6,38 +6,43 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f4; /* Light gray for background */
-    background-size: cover;
+    background: url('img2.jpg'); /* Use the uploaded image */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat;
+    image-rendering: crisp-edges;
+    filter: brightness(90%);
+    /* Slightly dimmed to make text elements more visible */
 }
 
 /* Chat container styling */
 .chat-container {
     width: 420px;
     max-width: 100%;
-    border-radius: 20px;
-    background: #ffffff; /* White background for a clean look */
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
     padding: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Soft shadow */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Slightly darker shadow */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px); /* Adds a blurred effect behind the chat container */
     transition: box-shadow 0.3s ease;
 }
 
 .chat-container:hover {
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* Chat header styling */
 .chat-header {
-    background: #2c3e50; /* Dark blue matching navbar */
+    background: linear-gradient(45deg, #d39e6e, #a3764d); /* Warmer gradient tones to match the architecture */
     color: #ffffff;
     padding: 15px;
     border-radius: 15px 15px 0 0;
     text-align: center;
-    font-family: 'Georgia', serif;
-    border-bottom: 2px solid #1f2c3a;
+    border-bottom: 2px solid #8b5e3c; /* Darker border to match */
 }
 
 .chat-header h1 {
@@ -49,10 +54,10 @@ body {
 #chat-box {
     height: 300px;
     overflow-y: auto;
-    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     padding: 15px;
-    background: #f4f4f4; /* Light gray background for messages */
+    background: rgba(245, 245, 245, 0.9); /* Softer, more transparent background */
     box-sizing: border-box;
     margin-bottom: 15px;
     display: flex;
@@ -60,26 +65,28 @@ body {
 }
 
 /* Individual message styling */
+#chat-box div {
+    margin: 5px 0;
+    padding: 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
 .user-message {
     align-self: flex-end;
-    background: #2c3e50; /* Dark blue for user messages */
+    background: #d39e6e; /* Warmer brown for user messages */
     color: white;
-    border-radius: 15px;
-    padding: 8px 12px;
-    margin: 5px 0;
-    max-width: 75%;
-    font-size: 14px;
+    border-bottom-right-radius: 0;
 }
 
 .bot-message {
     align-self: flex-start;
-    background: #e4e6eb; /* Light gray for bot messages */
-    color: #333333;
-    border-radius: 15px;
-    padding: 8px 12px;
-    margin: 5px 0;
-    max-width: 75%;
-    font-size: 14px;
+    background: #b0c4de; /* Muted blue-grey for bot messages */
+    color: #ffffff;
+    border-bottom-left-radius: 0;
 }
 
 /* Input container styling */
@@ -102,17 +109,16 @@ body {
 }
 
 #user-input:focus {
-    box-shadow: 0 0 5px rgba(44, 62, 80, 0.5);
-    border-color: #2c3e50;
+    box-shadow: 0 0 5px rgba(211, 158, 110, 0.5); /* Warm brown shadow on focus */
+    border-color: #d39e6e;
     outline: none;
 }
 
-/* Button styling */
 button {
     width: 80px;
     padding: 12px;
     border: none;
-    background: #e67e22; /* Orange button color matching the accent */
+    background: linear-gradient(45deg, #d39e6e, #a3764d); /* Warm gradient tones */
     color: white;
     font-size: 16px;
     border-radius: 20px;
@@ -121,7 +127,7 @@ button {
 }
 
 button:hover {
-    background: #d35400; /* Darker orange on hover */
+    background: linear-gradient(45deg, #b58251, #8b5e3c); /* Darker gradient on hover */
     transform: scale(1.05);
 }
 

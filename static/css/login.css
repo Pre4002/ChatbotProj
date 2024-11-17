@@ -1,0 +1,151 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(45deg, #003366, #99CCFF); /* Blue gradient for museum theme */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px; /* Added padding for some spacing around the edges */
+}
+
+/* Form Container */
+form {
+    background: rgba(255, 255, 255, 0.9); /* Slight white opacity for frosted glass effect */
+    padding: 40px;
+    border-radius: 12px; /* Rounded corners for a modern look */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); /* Deeper shadow for form */
+    width: 100%;
+    max-width: 400px; /* Prevent form from stretching too wide */
+    backdrop-filter: blur(8px); /* Frosted glass effect */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+/* Header styling */
+h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #003366; /* Dark Blue */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Label styling */
+label {
+    font-size: 16px;
+    color: #003366; /* Dark Blue for consistency */
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 600;
+    width: 100%;
+}
+
+/* Input fields */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 2px solid #003366;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f7f7f7; /* Light gray background */
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #99CCFF;
+    box-shadow: 0 0 12px rgba(0, 162, 255, 0.5); /* Blue focus shadow */
+}
+
+/* Submit button */
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    background: #003366; /* Dark Blue */
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: #99CCFF; /* Lighter Blue on hover */
+    transform: translateY(-3px); /* Slight hover lift effect */
+}
+
+button:active {
+    background: #006699; /* Darker Blue when clicked */
+    transform: translateY(1px); /* Slight press effect */
+}
+
+/* Paragraph styling (for links and messages) */
+p {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #f1f1f1;
+}
+
+/* Link styling */
+a {
+    color: #99CCFF; /* Light Blue */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #003366; /* Dark Blue on hover */
+    text-decoration: underline;
+}
+
+/* Flash Messages */
+.success {
+    color: #28a745;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.error {
+    color: #dc3545;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Responsive design: Adjust form for smaller screens */
+@media (max-width: 768px) {
+    form {
+        width: 90%; /* Make the form take up more width on small screens */
+        max-width: 100%; /* Prevent form from exceeding screen size */
+        padding: 25px; /* Reduce padding on smaller screens */
+    }
+
+    h2 {
+        font-size: 26px; /* Adjust the heading size on smaller screens */
+    }
+
+    label {
+        font-size: 14px; /* Make the labels smaller */
+    }
+
+    input, button {
+        font-size: 14px; /* Adjust the input and button text size */
+    }
+
+    p {
+        font-size: 12px; /* Reduce paragraph font size for mobile */
+    }
+}
