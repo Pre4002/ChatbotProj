@@ -5,28 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Rail Museum</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <style>
-        /* Floating Chatbot Icon */
-        .chatbot-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-color: #007bff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-        .chatbot-icon img {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
 </head>
 <body>
 
@@ -41,6 +21,7 @@
             <li><a href="/events">Events</a></li>
             <li><a href="/gallery">Gallery</a></li>
             <li><a href="/feedback">Feedback</a></li>
+            <li><a href="/bookticket">Book a Tticket</a></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
         </ul>
     </nav>

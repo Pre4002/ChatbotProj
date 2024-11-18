@@ -49,7 +49,20 @@ body {
 .navbar-links a:hover {
     text-decoration: underline;
 }
+nav {
+    background-color: #333;
+    padding: 10px;
+}
 
+nav a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #555;
+}
 /* Main Content Adjustments */
 .main-content {
     margin-top: 70px; /* Offset to account for fixed navbar height */

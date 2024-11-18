@@ -16,7 +16,6 @@ class Ticket(db.Model):
     ticket_type = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(20), default='Pending')  # Status can be 'Pending', 'Completed', or 'Canceled'
 
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -123,23 +122,35 @@ def previous_bookings():
         return jsonify({'previousBookings': []})
 
 
-@app.route('/book_ticket', methods=['POST'])
-def book_ticket():
-    data = request.get_json()
-    visitor_name = data.get('visitor_name', '')
-    ticket_type = data.get('ticket_type', '').lower()
+@app.route('/bookticket', methods=['GET', 'POST'])
+def bookticket():
+    if 'user_id' not in session:
+        flash('Please log in to access this page.', 'error')
+        return redirect(url_for('login'))
 
-    valid_ticket_types = ['adult', 'child', 'senior']
-    if visitor_name and ticket_type in valid_ticket_types:
-        new_ticket = Ticket(visitor_name=visitor_name, ticket_type=ticket_type)
-        db.session.add(new_ticket)
+    if request.method == 'POST':
+        data = request.get_json()
+        visitor_name = data.get('visitor_name')
+        ticket_type = data.get('ticket_type')
+        ticket_quantity = int(data.get('ticket_quantity'))
+        slot = data.get('slot')
+
+        # Creating multiple tickets based on the quantity
+        for _ in range(ticket_quantity):
+            new_ticket = Ticket(
+                visitor_name=visitor_name,
+                ticket_type=ticket_type,
+                status='Pending',  # You can adjust the status as needed
+            )
+            db.session.add(new_ticket)
+        
         db.session.commit()
-        return jsonify({
-            'message': 'Ticket booked successfully!',
-            'ticket_id': new_ticket.id  # Include the ID of the newly created ticket
-        })
-    else:
-        return jsonify({'message': 'Failed to book ticket. Please provide valid details.'}), 400
+
+        return jsonify({'message': f'{ticket_quantity} ticket(s) booked successfully for {slot} slot!'})
+
+    return render_template('bookticket.html')
+
+
 
 @app.route('/get_ticket', methods=['POST'])
 def get_ticket():

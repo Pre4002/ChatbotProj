@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Ticket - National Rail Museum</title>
+    <link rel="stylesheet" href="/static/css/bookticket.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="static/image/logo.jpeg" alt="National Rail Museum Logo">
+        </div>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+            <li><a href="/feedback">Feedback</a></li>
+            <li><a href="/book-ticket">Book a Ticket</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Book Ticket Section -->
+    <section class="book-ticket-section">
+        <h2>Book Your Ticket</h2>
+        <form id="book-ticket-form" action="{{ url_for('bookticket') }}" method="POST">
+            <label for="visitor_name">Your Name:</label>
+            <input type="text" id="visitor_name" name="visitor_name" required>
+            
+            <label for="ticket_type">Ticket Type:</label>
+            <select id="ticket_type" name="ticket_type" required>
+                <option value="adult">Adult</option>
+                <option value="child">Child</option>
+                <option value="senior">Senior</option>
+            </select>
+            
+            <label for="ticket_quantity">Number of Tickets:</label>
+            <input type="number" id="ticket_quantity" name="ticket_quantity" min="1" required>
+
+            <label for="slot">Select Slot:</label>
+            <select id="slot" name="slot" required>
+                <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
+                <option value="afternoon">Afternoon (12:00 PM - 3:00 PM)</option>
+                <option value="evening">Evening (3:00 PM - 6:00 PM)</option>
+            </select>
+            
+            <button type="submit">Book Ticket</button>
+        </form>
+        <p id="ticket-response"></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 National Rail Museum. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('book-ticket-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const visitorName = document.getElementById('visitor_name').value;
+    const ticketType = document.getElementById('ticket_type').value;
+    const ticketQuantity = document.getElementById('ticket_quantity').value;
+    const slot = document.getElementById('slot').value;
+
+    fetch('/bookticket', {  // POST request to book tickets
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'  // Make sure the request content is in JSON format
+        },
+        body: JSON.stringify({
+            visitor_name: visitorName,
+            ticket_type: ticketType,
+            ticket_quantity: ticketQuantity,
+            slot: slot
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            // Handle success - redirect to confirmation page or show message
+            window.location.href = `/ticketconfirm?visitor_name=${data.visitor_name}&ticket_quantity=${data.ticket_quantity}&ticket_ids=${data.ticket_ids.join(',')}`;
+        } else {
+            // Handle errors or issues in booking
+            alert('Booking failed: ' + data.error);
+        }
+    })
+    .catch(error => {
+        alert('Error booking ticket: ' + error);
+    });
+});
+
+    </script>
+</body>
+</html>
