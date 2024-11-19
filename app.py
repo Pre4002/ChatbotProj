@@ -113,6 +113,38 @@ def feedback():
 def chatbot_page():
     return render_template('chatbot.html')
 
+@app.route('/bookticket', methods=['GET', 'POST'])
+def bookticket():
+    if request.method == 'POST':
+        visitor_name = request.form['visitor_name']
+        ticket_type = request.form['ticket_type']
+        ticket_quantity = int(request.form['ticket_quantity'])
+        slot = request.form['slot']
+
+        # Create tickets
+        tickets = []
+        for _ in range(ticket_quantity):
+            new_ticket = Ticket(visitor_name=visitor_name, ticket_type=ticket_type, status='Completed')
+            db.session.add(new_ticket)
+            db.session.flush()  # Generate ticket IDs before committing
+            tickets.append(new_ticket.id)
+
+        db.session.commit()
+
+        # Redirect to confirmation page with ticket details
+        return redirect(url_for('ticketconfirm', visitor_name=visitor_name, ticket_quantity=ticket_quantity, ticket_ids=','.join(map(str, tickets)), slot=slot))
+
+    return render_template('bookticket.html')
+
+@app.route('/ticketconfirm')
+def ticketconfirm():
+    # Fetch query parameters from the URL
+    visitor_name = request.args.get('visitor_name')
+    ticket_quantity = request.args.get('ticket_quantity')
+    ticket_ids = request.args.get('ticket_ids').split(',')
+    slot = request.args.get('slot')
+
+    return render_template('ticketconfirm.html', visitor_name=visitor_name, ticket_quantity=ticket_quantity, ticket_ids=ticket_ids, slot=slot)
 
 
 @app.route('/previous_bookings', methods=['POST'])
