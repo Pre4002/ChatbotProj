@@ -51,19 +51,26 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']  # Use email instead of username
+        email = request.form['email']
         password = request.form['password']
 
-        # Query the database for the user by email
+        # Check if email exists
         user = User.query.filter_by(email=email).first()
 
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            session['email'] = user.email  # Store email in the session
-            flash('Login successful!', 'success')
-            return redirect(url_for('index'))
+        if user:
+            # If email exists, check if password is correct
+            if check_password_hash(user.password, password):
+                # Correct password
+                session['user_id'] = user.id
+                session['email'] = user.email  # Store email in the session
+                flash('Login successful!', 'success')
+                return redirect(url_for('index'))
+            else:
+                # Incorrect password
+                flash('Incorrect password. Please try again.', 'error')
         else:
-            flash('Invalid email or password!', 'error')
+            # Email not found
+            flash('No account found with that email address.', 'error')
 
     return render_template('login.html')
 
