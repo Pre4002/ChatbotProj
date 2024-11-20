@@ -116,14 +116,10 @@ def chatbot_page():
 @app.route('/bookticket', methods=['GET', 'POST'])
 def bookticket():
     if request.method == 'POST':
-        # Collect visitor name and other details from the form
-        visitor_name = request.form['visitor_name']
+        visitor_name = request.form['visitor_name']  # Ensure this is the visitor's name, not email
         ticket_type = request.form['ticket_type']
         ticket_quantity = int(request.form['ticket_quantity'])
         slot = request.form['slot']
-
-        # Store visitor name in session for future use (e.g., ticket cancellation)
-        session['visitor_name'] = visitor_name
 
         # Create tickets
         tickets = []
@@ -139,7 +135,6 @@ def bookticket():
         return redirect(url_for('ticketconfirm', visitor_name=visitor_name, ticket_quantity=ticket_quantity, ticket_ids=','.join(map(str, tickets)), slot=slot))
 
     return render_template('bookticket.html')
-
 
 @app.route('/ticketconfirm')
 def ticketconfirm():
@@ -189,16 +184,27 @@ def get_ticket():
 
 @app.route('/cancelticket', methods=['GET', 'POST'])
 def cancelticket():
-    # Get visitor name from session
-    visitor_name = session.get('visitor_name')  # This should be set when they book a ticket
+    # Ensure user is logged in
+    if 'user_id' not in session:
+        flash('Please log in to cancel tickets.', 'error')
+        return redirect(url_for('login'))
 
+    # Get visitor name from session, which should be their actual name (not email)
+    visitor_name = session.get('visitor_name')  # Ensure the visitor's name is stored in the session
     if not visitor_name:
-        flash('Please book a ticket first.', 'error')
-        return redirect(url_for('bookticket'))
+        flash('No visitor name found in session. Please log in again.', 'error')
+        return redirect(url_for('login'))
 
-    # Fetch the tickets associated with this visitor
+    # Debugging: Print visitor name to verify it's correctly fetched from session
+    print(f"Visitor Name: {visitor_name}")
+
+    # Fetch the tickets associated with this user
     tickets = Ticket.query.filter(Ticket.visitor_name == visitor_name, Ticket.status != 'Canceled').all()
 
+    # Debugging: Print fetched tickets to check if they are retrieved correctly
+    print(f"Fetched tickets: {tickets}")
+
+    # If no tickets are found, show a message
     if not tickets:
         flash("You don't have any tickets to cancel.", 'info')
         return render_template('cancelticket.html', tickets=tickets)
@@ -217,8 +223,7 @@ def cancelticket():
             ticket.status = 'Canceled'
             db.session.commit()
             flash(f'Ticket ID {ticket_id} has been canceled successfully!', 'success')
-            return redirect(url_for('cancelticket'))
-
+            return redirect(url_for('cancelticketpage'))
         else:
             flash('Ticket not found.', 'error')
 
