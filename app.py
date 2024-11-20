@@ -109,10 +109,6 @@ def gallery():
 def feedback():
     return render_template('feedback.html')
 
-@app.route('/chatbot')
-def chatbot_page():
-    return render_template('chatbot.html')
-
 @app.route('/bookticket', methods=['GET', 'POST'])
 def bookticket():
     if request.method == 'POST':
