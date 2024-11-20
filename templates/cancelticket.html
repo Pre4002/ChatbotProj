@@ -1,4 +1,3 @@
-<!-- cancel_ticket.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +16,6 @@
             <li><a href="/about">About</a></li>
             <li><a href="/events">Events</a></li>
             <li><a href="/gallery">Gallery</a></li>
-            <!-- <li><a href="/bookticket">Book a Tticket</a></li> -->
             <li><a href="/feedback">Feedback</a></li>
         </ul>
     </nav>
@@ -25,6 +23,11 @@
     <h2>Cancel Ticket</h2>
     
     {% if tickets %}
+        <!-- Button to cancel all tickets -->
+        <form method="POST" action="{{ url_for('cancelticket') }}">
+            <button type="submit" name="cancel_all">Cancel All Tickets</button>
+        </form>
+
         <ul>
             {% for ticket in tickets %}
                 <li>
@@ -32,7 +35,7 @@
                     {% if ticket.status != 'Canceled' %}
                         <form action="{{ url_for('cancelticket') }}" method="POST">
                             <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
-                            <button type="submit">Cancel Ticket</button>
+                            <button type="submit">Cancel This Ticket</button>
                         </form>
                     {% endif %}
                 </li>

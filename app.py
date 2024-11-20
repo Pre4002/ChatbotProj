@@ -188,31 +188,38 @@ def get_ticket():
 
 @app.route('/cancelticket', methods=['GET', 'POST'])
 def cancelticket():
+    if 'user_id' not in session:
+        flash('Please log in to cancel your tickets.', 'error')
+        return redirect(url_for('login'))
+
     # Fetch visitor name from session
     visitor_name = session.get('visitor_name')  # Retrieve visitor's name stored during booking
     if not visitor_name:
-        flash('No visitor name found. Please book a ticket first.', 'error')
+        flash('No visitor name found. Please book a ticket first to cancel.', 'error')
         return redirect(url_for('bookticket'))
 
     # Fetch the tickets associated with the visitor
     tickets = Ticket.query.filter(Ticket.visitor_name == visitor_name, Ticket.status != 'Canceled').all()
 
     if request.method == 'POST':
-        ticket_id = request.form.get('ticket_id')
-
-        if not ticket_id:
-            flash('No ticket selected for cancellation.', 'error')
-            return redirect(url_for('cancelticket'))
-
-        ticket = Ticket.query.get(ticket_id)
-
-        if ticket:
-            # Cancel the ticket
-            ticket.status = 'Canceled'
+        if 'cancel_all' in request.form:
+            # Cancel all tickets that are not already canceled
+            for ticket in tickets:
+                ticket.status = 'Canceled'
             db.session.commit()
-            flash(f'Ticket ID {ticket_id} has been canceled successfully!', 'success')
-        else:
-            flash('Ticket not found.', 'error')
+            flash('All tickets have been canceled successfully!', 'success')
+            return redirect(url_for('cancelticket'))  # Redirect to the same page to show updated status
+
+        # If a single ticket is selected for cancellation
+        ticket_id = request.form.get('ticket_id')
+        if ticket_id:
+            ticket = Ticket.query.get(ticket_id)
+            if ticket:
+                ticket.status = 'Canceled'
+                db.session.commit()
+                flash(f'Ticket ID {ticket_id} has been canceled successfully!', 'success')
+            else:
+                flash('Ticket not found.', 'error')
 
     return render_template('cancelticket.html', tickets=tickets)
 
