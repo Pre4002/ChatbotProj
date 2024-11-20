@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Confirmation</title>
+    <title>Booking Confirmation</title>
     <link rel="stylesheet" href="/static/css/ticketconfirm.css">
 </head>
 <body>
     <nav class="navbar">
+        <div class="logo">
+            <img src="static/image/logo.jpeg" alt="National Rail Museum Logo">
+        </div>
         <ul class="navbar-links">
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/events">Events</a></li>
             <li><a href="/gallery">Gallery</a></li>
             <li><a href="/feedback">Feedback</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
         </ul>
     </nav>
 
     <section class="confirmation-section">
-        <h2 class="confirmation-title">Booking Confirmed!</h2>
-        <p class="confirmation-details">
-            Thank you, <strong>John Doe</strong>, for booking your tickets. <br>
-            <strong>Ticket Type:</strong> Adult <br>
-            <strong>Number of Tickets:</strong> 2 <br>
-            <strong>Slot:</strong> Morning (9:00 AM - 12:00 PM)
-        </p>
-        <a href="/" class="btn-home">Go to Home</a>
-        <p class="confirmation-footer">© 2024 National Rail Museum. All Rights Reserved.</p>
+        <h2 class="confirmation-title">Booking Confirmed</h2>
+        <p>Thank you, <strong>{{ visitor_name }}</strong>! Your booking has been confirmed.</p>
+        <p>Ticket Quantity: {{ ticket_quantity }}</p>
+        <p>Slot: {{ slot }}</p>
+        <p>Ticket ID(s): {{ ticket_ids }}</p>
     </section>
+
+    <footer class="footer">
+        <p>© 2024 National Rail Museum. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>

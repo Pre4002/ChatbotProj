@@ -45,7 +45,43 @@ body {
 .navbar-links a:hover {
     text-decoration: underline;
 }
+.navbar .navbar-links li {
+    padding: 0 15px;
+}
 
+.navbar .navbar-links a {
+    color: white;  /* Ensures text is white */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Dropdown menu styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown .dropdown-content {
+    display: none;  /* Initially hide the dropdown */
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;  /* Show dropdown on hover */
+}
+
+.dropdown .dropdown-content a {
+    color: white;  /* Ensures dropdown text is white */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown .dropdown-content a:hover {
+    background-color: #555;
+}
 /* Hero Section */
 .hero-section {
     position: relative;

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Bookings</title>
+</head>
+<body>
+    <h1>Your Previous Bookings</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Visitor Name</th>
+                <th>Ticket Type</th>
+                <th>Status</th>
+                <th>Slot</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.visitor_name }}</td>
+                    <td>{{ booking.ticket_type }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.slot }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
