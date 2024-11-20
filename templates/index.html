@@ -6,7 +6,6 @@
     <title>National Rail Museum</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    gtr
 </head>
 <body>
     <!-- Navbar -->
@@ -27,7 +26,6 @@
                     <a href="/previousbookings">View Bookings</a>
                 </div>
             </li>
-    
             <li><a href="/feedback">Feedback</a></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
         </ul>
@@ -85,11 +83,10 @@
         </div>
     </section>
 
-    <!-- Chatbot Icon
-    <div class="chatbot-icon" onclick="openChatbot()">
-        <img src="/static/image/chat.png" alt="Chatbot" style="cursor: pointer;">
-    </div> -->
-    
+    <!-- Chatbot Icon -->
+    <div id="chatbot-icon" onclick="openChatbot()">
+        <img src="/static/image/chat.png" alt="Chatbot Icon" style="cursor: pointer; width: 60px; height: 60px;">
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -97,22 +94,20 @@
     </footer>
 
     <!-- Botpress Chatbot Script -->
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2024/11/19/20/20241119201734-LNFE0DWD.js"></script>
+    <script>
+        window.botpressWebChat.init({
+            botId: "LNFE0DWD",
+            hostUrl: "https://cdn.botpress.cloud/webchat/v2.2/",
+            configUrl: "https://files.bpcontent.cloud/2024/11/19/20/20241119201734-LNFE0DWD.js"
+        });
 
-      <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-      <script src="https://files.bpcontent.cloud/2024/11/20/00/20241120002503-T8PDG50H.js"></script>
-      <script>
-         window.botpressWebChat.init({
-           botId: "YOUR_BOT_ID", 
-           hostUrl: "https://cdn.botpress.cloud/webchat/v2.2/",
-           configUrl: "https://files.bpcontent.cloud/2024/11/20/00/20241120002503-T8PDG50H.js"
-         });
-      
-         function openChatbot() {
-           window.botpressWebChat.sendEvent({
-             type: "show",
-           });
-         }
-      </script>
-      
+        function openChatbot() {
+            window.botpressWebChat.sendEvent({
+                type: "show",
+            });
+        }
+    </script>
 </body>
 </html>
