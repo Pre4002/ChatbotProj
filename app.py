@@ -42,10 +42,16 @@ def register():
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Registration successful! Please log in.', 'success')
-        return redirect(url_for('login'))
+
+        # Automatically log in the user after successful registration
+        session['user_id'] = new_user.id
+        session['email'] = new_user.email  # Store email in the session
+        flash('Registration successful! Welcome to the platform.', 'success')
+
+        return redirect(url_for('index'))  # Redirect to home page
 
     return render_template('register.html')
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
