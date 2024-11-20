@@ -1,0 +1,50 @@
+<!-- cancel_ticket.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Ticket</title>
+    <link rel="stylesheet" href="/static/css/cancel.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/static/image/logo.jpeg" alt="National Rail Museum Logo">
+        </div>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+            <!-- <li><a href="/bookticket">Book a Tticket</a></li> -->
+            <li><a href="/feedback">Feedback</a></li>
+        </ul>
+    </nav>
+
+    <h2>Cancel Ticket</h2>
+    
+    {% if tickets %}
+        <ul>
+            {% for ticket in tickets %}
+                <li>
+                    Ticket ID: {{ ticket.id }} - {{ ticket.ticket_type }} - Status: {{ ticket.status }}
+                    {% if ticket.status != 'Canceled' %}
+                        <form action="{{ url_for('cancelticket') }}" method="POST">
+                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                            <button type="submit">Cancel Ticket</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any tickets to cancel.</p>
+    {% endif %}
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 National Rail Museum. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

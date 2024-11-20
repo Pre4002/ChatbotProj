@@ -116,10 +116,14 @@ def chatbot_page():
 @app.route('/bookticket', methods=['GET', 'POST'])
 def bookticket():
     if request.method == 'POST':
+        # Collect visitor name and other details from the form
         visitor_name = request.form['visitor_name']
         ticket_type = request.form['ticket_type']
         ticket_quantity = int(request.form['ticket_quantity'])
         slot = request.form['slot']
+
+        # Store visitor name in session for future use (e.g., ticket cancellation)
+        session['visitor_name'] = visitor_name
 
         # Create tickets
         tickets = []
@@ -136,6 +140,7 @@ def bookticket():
 
     return render_template('bookticket.html')
 
+
 @app.route('/ticketconfirm')
 def ticketconfirm():
     # Fetch query parameters from the URL
@@ -147,30 +152,16 @@ def ticketconfirm():
     return render_template('ticketconfirm.html', visitor_name=visitor_name, ticket_quantity=ticket_quantity, ticket_ids=ticket_ids, slot=slot)
 
 
-@app.route('/previous_bookings', methods=['POST'])
-def previous_bookings():
-    data = request.get_json()
-    visitor_name = session.get('visitor_name')
-    
-    if not visitor_name:
-        return jsonify({'message': 'Please provide your name first.'}), 400
+@app.route('/previousbookings', methods=['GET'])
+def previousbookings():
+    if 'user_id' not in session:
+        flash('Please log in to view your bookings.', 'error')
+        return redirect(url_for('login'))
 
-    previous_tickets = Ticket.query.filter(
-        Ticket.visitor_name == visitor_name,
-        Ticket.status.in_(['Completed', 'Canceled'])
-    ).all()
+    # Fetch the tickets for the logged-in user
+    previous_tickets = Ticket.query.filter_by(visitor_name=session['email'], status='Completed').all()
 
-    if previous_tickets:
-        bookings = [
-            f"Ticket ID {ticket.id}, Ticket Type: {ticket.ticket_type}, Status: {ticket.status}"
-            for ticket in previous_tickets
-        ]
-        return jsonify({'previousBookings': bookings})
-    else:
-        return jsonify({'previousBookings': []})
-
-
-
+    return render_template('previousbookings.html', tickets=previous_tickets)
 
 @app.route('/get_ticket', methods=['POST'])
 def get_ticket():
@@ -196,26 +187,43 @@ def get_ticket():
     else:
         return jsonify({'message': 'Ticket not found.'}), 404
 
-@app.route('/cancel_ticket', methods=['POST'])
-def cancel_ticket():
-    data = request.get_json()
-    ticket_id = data.get('ticket_id', '')
+@app.route('/cancelticket', methods=['GET', 'POST'])
+def cancelticket():
+    # Get visitor name from session
+    visitor_name = session.get('visitor_name')  # This should be set when they book a ticket
 
-    if not ticket_id:
-        return jsonify({'message': 'Ticket ID is required.'}), 400
+    if not visitor_name:
+        flash('Please book a ticket first.', 'error')
+        return redirect(url_for('bookticket'))
 
-    try:
-        ticket_id = int(ticket_id)
-    except ValueError:
-        return jsonify({'message': 'Invalid Ticket ID format. Please provide a numeric Ticket ID.'}), 400
+    # Fetch the tickets associated with this visitor
+    tickets = Ticket.query.filter(Ticket.visitor_name == visitor_name, Ticket.status != 'Canceled').all()
 
-    ticket = Ticket.query.get(ticket_id)
-    if ticket:
-        db.session.delete(ticket)
-        db.session.commit()
-        return jsonify({'message': f'Ticket ID {ticket_id} canceled successfully!'})
-    else:
-        return jsonify({'message': 'Ticket not found. Please check the ticket ID and try again.'}), 404
+    if not tickets:
+        flash("You don't have any tickets to cancel.", 'info')
+        return render_template('cancelticket.html', tickets=tickets)
+
+    if request.method == 'POST':
+        ticket_id = request.form.get('ticket_id')
+
+        if not ticket_id:
+            flash('No ticket selected for cancellation.', 'error')
+            return redirect(url_for('cancelticket'))
+
+        ticket = Ticket.query.get(ticket_id)
+
+        if ticket:
+            # Cancel the ticket
+            ticket.status = 'Canceled'
+            db.session.commit()
+            flash(f'Ticket ID {ticket_id} has been canceled successfully!', 'success')
+            return redirect(url_for('cancelticket'))
+
+        else:
+            flash('Ticket not found.', 'error')
+
+    return render_template('cancelticket.html', tickets=tickets)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

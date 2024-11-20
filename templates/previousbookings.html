@@ -3,31 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Previous Bookings</title>
+    <title>Your Bookings</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <h1>Your Previous Bookings</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Ticket ID</th>
-                <th>Visitor Name</th>
-                <th>Ticket Type</th>
-                <th>Status</th>
-                <th>Slot</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for booking in bookings %}
-                <tr>
-                    <td>{{ booking.id }}</td>
-                    <td>{{ booking.visitor_name }}</td>
-                    <td>{{ booking.ticket_type }}</td>
-                    <td>{{ booking.status }}</td>
-                    <td>{{ booking.slot }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    {% if tickets %}
+        <ul>
+        {% for ticket in tickets %}
+            <li>
+                Ticket ID: {{ ticket.id }} | 
+                Type: {{ ticket.ticket_type }} | 
+                Status: {{ ticket.status }} 
+                <form action="{{ url_for('cancel_ticket') }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                    <button type="submit" class="btn-danger">Cancel Ticket</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no previous bookings.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('index') }}">Back to Home</a>
 </body>
 </html>
