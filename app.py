@@ -15,7 +15,7 @@ class Ticket(db.Model):
     visitor_name = db.Column(db.String(100), nullable=False)
     ticket_type = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(20), default='Pending')  # Status can be 'Pending', 'Completed', or 'Canceled'
-
+    
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
